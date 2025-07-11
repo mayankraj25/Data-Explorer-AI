@@ -4,6 +4,11 @@ import pandas as pd
 import streamlit as st
 from utils.csv_utils import dataframe_to_document
 import os
+import re
+
+def clean_markdown_output(text):
+    # Optional: strip unwanted Markdown or weird unicode
+    return re.sub(r'[_*]', '', text)
 
 st.set_page_config(page_title="Data Explorer AI", layout="wide")
 st.title("📊 Data Explorer AI")
@@ -38,7 +43,8 @@ if "agent" in st.session_state and "df" in st.session_state:
         result=query_agent(st.session_state.agent,query,st.session_state.df)
         answer=result["answer"]
         chart=result["chart"]
-        st.write(answer)
+        answer_text = clean_markdown_output(answer)
+        st.markdown(answer_text)
         if chart:
             st.subheader("Chart:")
             st.pyplot(chart)
