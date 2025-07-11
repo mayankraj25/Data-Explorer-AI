@@ -23,7 +23,7 @@ if csv_upload is not None:
     st.dataframe(df.head())
     if st.button("Load Data"):
         documents=load_csv_as_docs(df)
-        agent=build_agent(documents)
+        agent=build_agent(documents,user_api_key)
         st.session_state.agent=agent
         st.session_state.df=df
         st.success("Data loaded successfully!")
